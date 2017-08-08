@@ -1,0 +1,3 @@
+company 1  -  https://www.linkedin.com/search/results/people/?facetCurrentCompany=%5B%221539409%22%2C%2235654%22%5D&facetGeoRegion=%5B%22ca%3A4876%22%5D&keywords=kbs%2B%20canada&origin=FACETED_SEARCH
+company 2 -  https://www.linkedin.com/search/results/people/?facetCurrentCompany=%5B%221253228%22%5D
+company 3- https://www.linkedin.com/search/results/people/?facetCurrentCompany=["16605"]&origin=FACETED_SEARCH&page=69
