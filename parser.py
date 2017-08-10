@@ -60,6 +60,8 @@ for link, company in links.iteritems():
 			# Magic below.
 			raw = []
 			raw = driver.find_elements_by_xpath("//*[contains(@class, 'search-result')]/div/div[contains(@class, 'search-result__info')]/*[self::a/h3/span/span[contains(@class, 'actor-name')] or self::p[contains(@class, 'subline-level-1')]]")
+			city = driver.find_elements_by_xpath("//*[contains(@class, 'search-result')]/div/div[contains(@class, 'search-result__info')]/p[contains(@class, 'subline-level-2')]")
+
 			if len(raw) % 2 != 0:
 				print '\033[31mSomething went wrong! List is not even. Lost some name or position.\033[0m\n'
 				result.write('Something went wrong! List is not even. Lost some name or position.\n\n')
@@ -71,9 +73,14 @@ for link, company in links.iteritems():
 			if len(raw) < 20:
 				print '\033[31mI have lost someone here =(. Found %s instead of 10 people\033[0m\n' % int(len(raw)/2)
 				result.write('I have lost someone here =(. Found %s instead of 10 people\n\n' % int(len(raw)/2))
+
 			rw = []
 			for x in raw:
 				rw.append(x.text.encode('utf-8'))
+
+			ct = []
+			for x in city:
+				ct.append(x.text.encode('utf-8'))
 
 			rwd = {}
 			rwd = list(tuple((zip(rw[0::2], rw[1::2]))))
@@ -83,9 +90,19 @@ for link, company in links.iteritems():
 				l = list(tup)
 				l[0] = l[0].split('\n')[0]
 				data.append(tuple(l))
-			for x in data:
-				print x[0]+' - '+company+' - '+x[1]
-			 	result.write(x[0]+' - '+company+' - '+x[1]+'\n')
+
+			if len(data) != len(ct):
+				print '\033[31mSomething wrong =(. object name-position %s != object city %s \033[0m\n' % (int(len(data)),int(len(city)))
+				driver.close()
+				quit()
+
+			for name, city in zip(data, ct):
+				print name[0]+' - '+company+' - '+city+', '+name[1]
+				result.write(name[0]+' - '+company+' - '+city+', '+name[1]+'\n')
+
+			# for x in data:
+			# 	print x[0]+' - '+company+' - '+x[1]
+			#  	result.write(x[0]+' - '+company+' - '+x[1]+'\n')
 			result.write('\n')
 
 			try:
